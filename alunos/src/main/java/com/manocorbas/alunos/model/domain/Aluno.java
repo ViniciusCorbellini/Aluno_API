@@ -8,7 +8,8 @@ import java.util.List;
 
 @Table(name = "alunos")
 @Entity(name = "alunos")
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(of = "id")
@@ -22,7 +23,7 @@ public class Aluno {
     @Column(unique = true)
     private String matricula;
 
-    @OneToMany(mappedBy = "alunos", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "aluno", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Nota> notas;
 
     public Aluno(AlunoDTO dto) {

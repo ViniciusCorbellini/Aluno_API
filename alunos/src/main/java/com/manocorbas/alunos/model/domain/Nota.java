@@ -1,11 +1,13 @@
 package com.manocorbas.alunos.model.domain;
 
+import com.manocorbas.alunos.model.dtos.NotaDTO;
 import jakarta.persistence.*;
 import lombok.*;
 
 @Table(name = "notas")
 @Entity(name = "notas")
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(of = "id")
@@ -21,4 +23,10 @@ public class Nota {
     private String nome;
 
     private float valor_nota;
+
+    public Nota(NotaDTO dto) {
+        this.aluno = dto.aluno();
+        this.nome = dto.nome();
+        this.valor_nota = dto.valor();
+    }
 }
