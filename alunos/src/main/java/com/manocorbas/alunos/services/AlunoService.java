@@ -10,7 +10,7 @@ import java.util.List;
 
 @Service
 public class AlunoService {
-    public final AlunoRepository alunoRepository;
+    private AlunoRepository alunoRepository;
 
     public AlunoService(AlunoRepository alunoRepository) {
         this.alunoRepository = alunoRepository;
@@ -31,9 +31,15 @@ public class AlunoService {
     public Aluno updateAluno(Long id, AlunoDTO novo) throws Exception{
         Aluno aluno = findAlunoById(id);
 
+
         aluno.setNome(novo.nome());
         aluno.setMatricula(novo.matricula());
-        aluno.setNotas(novo.notas());
+
+        List<Nota> notas = novo.notas()
+                .stream()
+                .map(notaDTO -> new Nota(notaDTO, aluno))
+                .toList();
+        aluno.setNotas(notas);
 
         return alunoRepository.save(aluno);
     }

@@ -1,5 +1,6 @@
 package com.manocorbas.alunos.services;
 
+import com.manocorbas.alunos.model.domain.Aluno;
 import com.manocorbas.alunos.model.domain.Nota;
 import com.manocorbas.alunos.model.dtos.NotaDTO;
 import com.manocorbas.alunos.repositories.NotaRepository;
@@ -14,8 +15,9 @@ public class NotaService {
         this.notaRepository = notaRepository;
     }
 
-    public Nota createNota(NotaDTO dto){
-        Nota nota = new Nota(dto);
+    public Nota createNota(NotaDTO dto) throws Exception {
+        Aluno aluno = alunoService.findAlunoById(dto.id_aluno());
+        Nota nota = new Nota(dto, aluno);
         return notaRepository.save(nota);
     }
 
@@ -31,9 +33,10 @@ public class NotaService {
 
     public Nota updateNota(Long id, NotaDTO nova) throws Exception{
         Nota antiga = findNotaById(id);
+        Aluno al = alunoService.findAlunoById(nova.id_aluno());
 
-        antiga.setValor_nota(nova.valor());
-        antiga.setAluno(nova.aluno());
+        antiga.setValor_nota(nova.valor_nota());
+        antiga.setAluno(al);
         antiga.setNome(nova.nome());
 
         return notaRepository.save(antiga);
