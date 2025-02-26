@@ -1,8 +1,10 @@
 package com.manocorbas.alunos.model.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.manocorbas.alunos.model.dtos.NotaDTO;
 import jakarta.persistence.*;
 import lombok.*;
+
 
 @Table(name = "notas")
 @Entity(name = "notas")
@@ -16,17 +18,20 @@ public class Nota {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+
     @ManyToOne
-    @JoinColumn(name = "aluno_id")
+    @JoinColumn(name = "id_aluno")
+    @JsonBackReference
     private Aluno aluno;
 
     private String nome;
 
-    private float valor_nota;
+    private Float valor_nota;
 
-    public Nota(NotaDTO dto) {
-        this.aluno = dto.aluno();
+    public Nota(NotaDTO dto, Aluno aluno) {
+        this.aluno = aluno;
         this.nome = dto.nome();
-        this.valor_nota = dto.valor();
+        this.valor_nota = dto.valor_nota();
+        System.out.println(dto.valor_nota());
     }
 }
