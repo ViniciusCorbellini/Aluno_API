@@ -11,8 +11,8 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class AppConfig {
     @Bean
-    public NotaService notaService(NotaRepository notaRepository){
-        return new NotaService(notaRepository);
+    public NotaService notaService(NotaRepository notaRepository, AlunoService alunoService){
+        return new NotaService(notaRepository, alunoService);
     }
 
     @Bean
