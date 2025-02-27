@@ -32,6 +32,5 @@ public class Nota {
         this.aluno = aluno;
         this.nome = dto.nome();
         this.valor_nota = dto.valor_nota();
-        System.out.println(dto.valor_nota());
     }
 }
