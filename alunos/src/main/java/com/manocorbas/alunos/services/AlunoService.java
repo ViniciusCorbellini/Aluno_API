@@ -31,15 +31,17 @@ public class AlunoService {
     public Aluno updateAluno(Long id, AlunoDTO novo) throws Exception{
         Aluno aluno = findAlunoById(id);
 
-
         aluno.setNome(novo.nome());
         aluno.setMatricula(novo.matricula());
+
+        aluno.getNotas().clear();
 
         List<Nota> notas = novo.notas()
                 .stream()
                 .map(notaDTO -> new Nota(notaDTO, aluno))
                 .toList();
-        aluno.setNotas(notas);
+
+        aluno.getNotas().addAll(notas);
 
         return alunoRepository.save(aluno);
     }
