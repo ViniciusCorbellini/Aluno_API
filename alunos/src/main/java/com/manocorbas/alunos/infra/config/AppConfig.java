@@ -1,6 +1,5 @@
 package com.manocorbas.alunos.infra.config;
 
-import com.manocorbas.alunos.model.domain.Aluno;
 import com.manocorbas.alunos.repositories.AlunoRepository;
 import com.manocorbas.alunos.repositories.NotaRepository;
 import com.manocorbas.alunos.services.AlunoService;
