@@ -54,7 +54,7 @@ public class AlunoController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteAluno(@PathVariable(value = "id") Long id){
+    public ResponseEntity<String> deleteAluno(@PathVariable(value = "id") Long id) throws EntityNotFoundException{
         alunoService.deleteAlunoById(id);
         return ResponseEntity.status(HttpStatus.FOUND).body("Aluno deletado");
     }
