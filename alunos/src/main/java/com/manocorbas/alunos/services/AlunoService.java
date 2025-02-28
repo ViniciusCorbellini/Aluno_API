@@ -4,6 +4,7 @@ import com.manocorbas.alunos.model.domain.Aluno;
 import com.manocorbas.alunos.model.domain.Nota;
 import com.manocorbas.alunos.model.dtos.AlunoDTO;
 import com.manocorbas.alunos.repositories.AlunoRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,11 +25,11 @@ public class AlunoService {
 
     public List<Aluno> getAllAlunos(){return alunoRepository.findAll();}
 
-    public Aluno findAlunoById(Long id) throws Exception{
-        return alunoRepository.findAlunoById(id).orElseThrow(() -> new Exception("Aluno nao encontrado!"));
+    public Aluno findAlunoById(Long id) throws EntityNotFoundException{
+        return alunoRepository.findAlunoById(id).orElseThrow(() -> new EntityNotFoundException("Aluno nao encontrado!"));
     }
 
-    public Aluno updateAluno(Long id, AlunoDTO novo) throws Exception{
+    public Aluno updateAluno(Long id, AlunoDTO novo) throws EntityNotFoundException{
         Aluno aluno = findAlunoById(id);
 
         aluno.setNome(novo.nome());
@@ -46,7 +47,10 @@ public class AlunoService {
         return alunoRepository.save(aluno);
     }
 
-    public void deleteAluno(Long id){alunoRepository.deleteById(id);}
+    public void deleteAlunoById(Long id) throws EntityNotFoundException{
+        findAlunoById(id);
+        alunoRepository.deleteById(id);
+    }
 
     public Float calculateMedia(Aluno aluno) throws Exception{
         if(aluno.getNotas().isEmpty()) throw new Exception("O aluno nao possui notas cadastradas");
@@ -56,9 +60,5 @@ public class AlunoService {
             sum += n.getValor_nota();
         }
         return (float) (sum/aluno.getNotas().size());
-    }
-
-    public boolean aproved(Aluno aluno) throws Exception{
-        return calculateMedia(aluno) >= 7;
     }
 }
